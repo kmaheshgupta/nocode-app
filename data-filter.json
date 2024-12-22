@@ -1,0 +1,78 @@
+{
+  "title": "Recording 12/22/2024 at 11:57:12 AM",
+  "steps": [
+    {
+      "type": "setViewport",
+      "width": 1263,
+      "height": 334,
+      "deviceScaleFactor": 1,
+      "isMobile": false,
+      "hasTouch": false,
+      "isLandscape": false
+    },
+    {
+      "type": "navigate",
+      "url": "http://127.0.0.1:5500/employee-details.html",
+      "assertedEvents": [
+        {
+          "type": "navigation",
+          "url": "http://127.0.0.1:5500/employee-details.html",
+          "title": "Employee Details"
+        }
+      ]
+    },
+    {
+      "type": "click",
+      "target": "main",
+      "selectors": [
+        ["#filter-id"],
+        ["xpath///*[@id=\"filter-id\"]"],
+        ["pierce/#filter-id"]
+      ],
+      "offsetY": 11.666664123535156,
+      "offsetX": 73.92707824707031
+    },
+    {
+      "type": "change",
+      "value": "5",
+      "selectors": [
+        ["#filter-id"],
+        ["xpath///*[@id=\"filter-id\"]"],
+        ["pierce/#filter-id"]
+      ],
+      "target": "main"
+    },
+    {
+      "type": "click",
+      "target": "main",
+      "selectors": [
+        ["#filter-department"],
+        ["xpath///*[@id=\"filter-department\"]"],
+        ["pierce/#filter-department"]
+      ],
+      "offsetY": 9.666664123535156,
+      "offsetX": 27.48956298828125
+    },
+    {
+      "type": "change",
+      "value": "mark",
+      "selectors": [
+        ["#filter-department"],
+        ["xpath///*[@id=\"filter-department\"]"],
+        ["pierce/#filter-department"]
+      ],
+      "target": "main"
+    },
+    {
+      "type": "click",
+      "target": "main",
+      "selectors": [
+        ["div.add-employee-box"],
+        ["xpath//html/body/div[2]"],
+        ["pierce/div.add-employee-box"]
+      ],
+      "offsetY": 36.66666603088379,
+      "offsetX": 383
+    }
+  ]
+}

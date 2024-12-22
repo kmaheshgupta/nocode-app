@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Details</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+  </head>
+  <body class="dark-mode">
+    <h1>Employee Details</h1>
+    <label class="switch">
+      <input type="checkbox" onclick="toggleMode()" />
+      <span class="slider round"></span>
+    </label>
+    <div class="filter-box">
+      <div class="filters">
+        <label for="filter-id">ID:</label>
+        <input type="text" id="filter-id" onkeyup="filterTable()" />
+        <label for="filter-name">Name:</label>
+        <input type="text" id="filter-name" onkeyup="filterTable()" />
+        <label for="filter-position">Position:</label>
+        <input type="text" id="filter-position" onkeyup="filterTable()" />
+        <label for="filter-department">Department:</label>
+        <input type="text" id="filter-department" onkeyup="filterTable()" />
+        <label for="filter-email">Email:</label>
+        <input type="text" id="filter-email" onkeyup="filterTable()" />
+      </div>
+      <i class="fas fa-times" onclick="clearFilters()"></i>
+    </div>
+    <div class="add-employee-box">
+      <h2>Add New Employee</h2>
+      <div class="add-employee-form">
+        <label for="new-id">ID:</label>
+        <input type="text" id="new-id" />
+        <label for="new-name">Name:</label>
+        <input type="text" id="new-name" />
+        <label for="new-position">Position:</label>
+        <input type="text" id="new-position" />
+        <label for="new-department">Department:</label>
+        <input type="text" id="new-department" />
+        <label for="new-email">Email:</label>
+        <input type="text" id="new-email" />
+        <i class="fas fa-plus" onclick="addEmployee()"></i>
+      </div>
+    </div>
+    <i class="fas fa-sync-alt" onclick="refreshDatabase()"></i>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Position</th>
+          <th>Department</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody id="employee-table-body">
+        <!-- Employee rows will be populated here -->
+      </tbody>
+    </table>
+    <script src="scripts.js"></script>
+  </body>
+</html>

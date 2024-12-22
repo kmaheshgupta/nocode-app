@@ -1,0 +1,20 @@
+
+# Exclude virtual environment directory
+venv/
+
+# Exclude Python cache files
+__pycache__/
+*.pyc
+
+# Exclude environment variable files
+.env
+
+# Exclude IDE/editor specific files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Exclude OS generated files
+.DS_Store
+Thumbs.db
