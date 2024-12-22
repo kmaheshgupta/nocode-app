@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Visualizations</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+  </head>
+  <body class="dark-mode">
+    <nav>
+      <a
+        href="employee-details.html"
+        class="view-charts-link"
+        style="align-self: flex-start"
+        >Employee Details</a
+      >
+      <div class="switch-container">
+        <label class="switch">
+          <input type="checkbox" id="theme-toggle" onclick="toggleMode()" />
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </nav>
+    <h1>Employee Charts</h1>
+    <div class="tabs">
+      <button class="tablinks" onclick="openTab(event, 'DepartmentChart')">
+        <i class="fas fa-chart-bar"></i> Department
+      </button>
+      <button class="tablinks" onclick="openTab(event, 'PositionChart')">
+        <i class="fas fa-chart-pie"></i> Position
+      </button>
+      <button
+        class="tablinks"
+        onclick="openTab(event, 'PositionsInDepartmentChart')"
+      >
+        <i class="fas fa-layer-group"></i> Positions in Department
+      </button>
+    </div>
+    <div id="DepartmentChart" class="tabcontent">
+      <div class="visualization-box">
+        <h2>Employee Count by Department</h2>
+        <canvas id="departmentChart"></canvas>
+      </div>
+    </div>
+    <div id="PositionChart" class="tabcontent">
+      <div class="visualization-box">
+        <h2>Employee Count by Position</h2>
+        <canvas id="positionChart"></canvas>
+      </div>
+    </div>
+    <div id="PositionsInDepartmentChart" class="tabcontent">
+      <div class="visualization-box">
+        <h2>Positions in Department</h2>
+        <canvas id="positionsInDepartmentChart"></canvas>
+      </div>
+    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+      <defs>
+        <filter id="goo">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+          <feColorMatrix
+            in="blur"
+            mode="matrix"
+            values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -10"
+            result="goo"
+          />
+          <feBlend in="SourceGraphic" in2="goo" />
+        </filter>
+      </defs>
+    </svg>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-3d"></script>
+    <script>
+      Chart.register(Chart3D);
+    </script>
+    <script src="scripts.js"></script>
+    <script src="theme.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const theme = localStorage.getItem("theme") || "dark-mode";
+        document.body.classList.add(theme);
+        if (theme === "light-mode") {
+          document.getElementById("theme-toggle").checked = true;
+        }
+        applyThemeToElements(theme);
+      });
+
+      function toggleMode() {
+        const body = document.body;
+        body.classList.toggle("dark-mode");
+        body.classList.toggle("light-mode");
+        const theme = body.classList.contains("dark-mode")
+          ? "dark-mode"
+          : "light-mode";
+        localStorage.setItem("theme", theme);
+        applyThemeToElements(theme);
+      }
+
+      function applyThemeToElements(theme) {
+        const elements = document.querySelectorAll(".visualization-box");
+        elements.forEach((element) => {
+          if (theme === "dark-mode") {
+            element.style.backgroundColor = "#222";
+            element.style.borderColor = "#555";
+          } else {
+            element.style.backgroundColor = "#f9f9f9";
+            element.style.borderColor = "#ccc";
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
