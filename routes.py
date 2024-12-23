@@ -18,6 +18,11 @@ def get_employee(id):
 @app.route('/employee', methods=['POST'])
 def add_employee():
     data = request.json
+    required_fields = ['name', 'position', 'department', 'email']
+    for field in required_fields:
+        if field not in data:
+            return jsonify({"error": f"Missing required field: {field}"}), 400
+
     new_employee = Employee(
         name=data['name'],
         position=data['position'],
