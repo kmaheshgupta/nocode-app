@@ -1,21 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  fetch("http://127.0.0.1:5000/employees")
-    .then((response) => response.json())
-    .then((data) => {
-      const tableBody = document.getElementById("employee-table-body");
-      data.forEach((employee) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${employee.id}</td>
-          <td contenteditable="true" onblur="updateEmployee(${employee.id}, 'name', this.textContent)">${employee.name}</td>
-          <td contenteditable="true" onblur="updateEmployee(${employee.id}, 'position', this.textContent)">${employee.position}</td>
-          <td contenteditable="true" onblur="updateEmployee(${employee.id}, 'department', this.textContent)">${employee.department}</td>
-          <td contenteditable="true" onblur="updateEmployee(${employee.id}, 'email', this.textContent)">${employee.email}</td>
-          <td><i class="fas fa-trash-alt" onclick="deleteEmployee(${employee.id})"></i></td>
-        `;
-        tableBody.appendChild(row);
-      });
-    });
+  loadData();
   if (document.getElementById("departmentChart")) {
     renderDepartmentChart();
   }
@@ -27,6 +11,53 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   document.querySelector(".tablinks").click(); // Open the first tab by default
 });
+
+function loadData() {
+  fetch("http://127.0.0.1:5000/employees")
+    .then((response) => response.json())
+    .then((data) => {
+      const tableBody = document.getElementById("employee-table-body");
+      tableBody.innerHTML = ""; // Clear existing data
+      data.forEach((employee) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${employee.id}</td>
+          <td contenteditable="true" onblur="updateEmployee(${employee.id}, 'name', this.textContent)">${employee.name}</td>
+          <td contenteditable="true" onblur="updateEmployee(${employee.id}, 'position', this.textContent)">${employee.position}</td>
+          <td contenteditable="true" onblur="updateEmployee(${employee.id}, 'department', this.textContent)">${employee.department}</td>
+          <td contenteditable="true" onblur="updateEmployee(${employee.id}, 'email', this.textContent)">${employee.email}</td>
+          <td contenteditable="true" onblur="updateEmployee(${employee.id}, 'salary', this.textContent)">${employee.salary}</td>
+          <td contenteditable="true" onblur="updateEmployee(${employee.id}, 'country', this.textContent)">${employee.country}</td>
+          <td contenteditable="true" onblur="updateEmployee(${employee.id}, 'hiring_date', this.textContent)">${employee.hiring_date}</td>
+          <td contenteditable="true" onblur="updateEmployee(${employee.id}, 'previous_salary', this.textContent)">${employee.previous_salary}</td>
+          <td contenteditable="true" onblur="updateEmployee(${employee.id}, 'last_promoted_date', this.textContent)">${employee.last_promoted_date}</td>
+          <td><i class="fas fa-trash-alt" onclick="deleteEmployee(${employee.id})"></i></td>
+        `;
+        tableBody.appendChild(row);
+      });
+    });
+}
+
+function refreshDatabase() {
+  if (
+    confirm(
+      "Are you sure you want to refresh the database? This will reset all data."
+    )
+  ) {
+    fetch("http://127.0.0.1:5000/reset-database", {
+      method: "POST",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.message) {
+          alert(data.message);
+          loadData();
+        } else {
+          alert(data.error);
+        }
+      });
+  }
+}
 
 function filterTable() {
   const idFilter = document.getElementById("filter-id").value.toLowerCase();
@@ -40,6 +71,15 @@ function filterTable() {
   const emailFilter = document
     .getElementById("filter-email")
     .value.toLowerCase();
+  const salaryFilter = document
+    .getElementById("filter-salary")
+    .value.toLowerCase();
+  const countryFilter = document
+    .getElementById("filter-country")
+    .value.toLowerCase();
+  const previousSalaryFilter = document
+    .getElementById("filter-previous-salary")
+    .value.toLowerCase();
   const table = document.querySelector("table tbody");
   const rows = table.getElementsByTagName("tr");
 
@@ -50,13 +90,19 @@ function filterTable() {
     const position = cells[2].textContent.toLowerCase();
     const department = cells[3].textContent.toLowerCase();
     const email = cells[4].textContent.toLowerCase();
+    const salary = cells[5].textContent.toLowerCase();
+    const country = cells[6].textContent.toLowerCase();
+    const previousSalary = cells[8].textContent.toLowerCase();
 
     if (
       id.includes(idFilter) &&
       name.includes(nameFilter) &&
       position.includes(positionFilter) &&
       department.includes(departmentFilter) &&
-      email.includes(emailFilter)
+      email.includes(emailFilter) &&
+      salary.includes(salaryFilter) &&
+      country.includes(countryFilter) &&
+      previousSalary.includes(previousSalaryFilter)
     ) {
       rows[i].style.display = "";
     } else {
@@ -71,6 +117,9 @@ function clearFilters() {
   document.getElementById("filter-position").value = "";
   document.getElementById("filter-department").value = "";
   document.getElementById("filter-email").value = "";
+  document.getElementById("filter-salary").value = "";
+  document.getElementById("filter-country").value = "";
+  document.getElementById("filter-previous-salary").value = "";
   filterTable();
 }
 
@@ -80,14 +129,37 @@ function addEmployee() {
   const position = document.getElementById("new-position").value;
   const department = document.getElementById("new-department").value;
   const email = document.getElementById("new-email").value;
+  const salary = document.getElementById("new-salary").value;
+  const country = document.getElementById("new-country").value;
+  const hiringDate = document.getElementById("new-hiring-date").value;
+  const previousSalary = document.getElementById("new-previous-salary").value;
+  const lastPromotedDate = document.getElementById(
+    "new-last-promoted-date"
+  ).value;
 
-  if (id && name && position && department && email) {
+  if (
+    id &&
+    name &&
+    position &&
+    department &&
+    email &&
+    salary &&
+    country &&
+    hiringDate &&
+    previousSalary &&
+    lastPromotedDate
+  ) {
     const newEmployee = {
       id,
       name,
       position,
       department,
       email,
+      salary,
+      country,
+      hiring_date: hiringDate,
+      previous_salary: previousSalary,
+      last_promoted_date: lastPromotedDate,
     };
 
     fetch("http://127.0.0.1:5000/employee", {
@@ -103,13 +175,18 @@ function addEmployee() {
         const newRow = document.createElement("tr");
 
         newRow.innerHTML = `
-                <td>${employee.id}</td>
-                <td contenteditable="true" onblur="updateEmployee(${employee.id}, 'name', this.textContent)">${employee.name}</td>
-                <td contenteditable="true" onblur="updateEmployee(${employee.id}, 'position', this.textContent)">${employee.position}</td>
-                <td contenteditable="true" onblur="updateEmployee(${employee.id}, 'department', this.textContent)">${employee.department}</td>
-                <td contenteditable="true" onblur="updateEmployee(${employee.id}, 'email', this.textContent)">${employee.email}</td>
-                <td><i class="fas fa-trash-alt" onclick="deleteEmployee(${employee.id})"></i></td>
-            `;
+          <td>${employee.id}</td>
+          <td contenteditable="true" onblur="updateEmployee(${employee.id}, 'name', this.textContent)">${employee.name}</td>
+          <td contenteditable="true" onblur="updateEmployee(${employee.id}, 'position', this.textContent)">${employee.position}</td>
+          <td contenteditable="true" onblur="updateEmployee(${employee.id}, 'department', this.textContent)">${employee.department}</td>
+          <td contenteditable="true" onblur="updateEmployee(${employee.id}, 'email', this.textContent)">${employee.email}</td>
+          <td contenteditable="true" onblur="updateEmployee(${employee.id}, 'salary', this.textContent)">${employee.salary}</td>
+          <td contenteditable="true" onblur="updateEmployee(${employee.id}, 'country', this.textContent)">${employee.country}</td>
+          <td contenteditable="true" onblur="updateEmployee(${employee.id}, 'hiring_date', this.textContent)">${employee.hiring_date}</td>
+          <td contenteditable="true" onblur="updateEmployee(${employee.id}, 'previous_salary', this.textContent)">${employee.previous_salary}</td>
+          <td contenteditable="true" onblur="updateEmployee(${employee.id}, 'last_promoted_date', this.textContent)">${employee.last_promoted_date}</td>
+          <td><i class="fas fa-trash-alt" onclick="deleteEmployee(${employee.id})"></i></td>
+        `;
 
         table.appendChild(newRow);
 
@@ -118,6 +195,11 @@ function addEmployee() {
         document.getElementById("new-position").value = "";
         document.getElementById("new-department").value = "";
         document.getElementById("new-email").value = "";
+        document.getElementById("new-salary").value = "";
+        document.getElementById("new-country").value = "";
+        document.getElementById("new-hiring-date").value = "";
+        document.getElementById("new-previous-salary").value = "";
+        document.getElementById("new-last-promoted-date").value = "";
       });
   } else {
     alert("Please fill in all fields");
@@ -155,27 +237,6 @@ function deleteEmployee(id) {
         alert(data.error);
       }
     });
-}
-
-function refreshDatabase() {
-  if (
-    confirm(
-      "Are you sure you want to refresh the database? This will reset all data."
-    )
-  ) {
-    fetch("http://127.0.0.1:5000/refresh-database", {
-      method: "POST",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.message) {
-          alert(data.message);
-          location.reload();
-        } else {
-          alert(data.error);
-        }
-      });
-  }
 }
 
 function renderDepartmentChart() {
@@ -349,4 +410,41 @@ function openTab(evt, tabName) {
   }
   document.getElementById(tabName).classList.add("active");
   evt.currentTarget.classList.add("active");
+}
+
+function toggleChat() {
+  const chatWindow = document.getElementById("chat-window");
+  chatWindow.style.display =
+    chatWindow.style.display === "none" || chatWindow.style.display === ""
+      ? "flex"
+      : "none";
+}
+
+function sendMessage() {
+  const chatInput = document.getElementById("chat-input");
+  const chatBody = document.getElementById("chat-body");
+  const message = chatInput.value.trim();
+  if (message) {
+    const customerMessage = document.createElement("div");
+    customerMessage.className = "chat-message customer";
+    customerMessage.textContent = `Customer: ${message}`;
+    chatBody.appendChild(customerMessage);
+    chatInput.value = "";
+
+    fetch("http://127.0.0.1:5000/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ message }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const botMessage = document.createElement("div");
+        botMessage.className = "chat-message ai-bot";
+        botMessage.textContent = `AI Bot: ${data.response}`;
+        chatBody.appendChild(botMessage);
+        chatBody.scrollTop = chatBody.scrollHeight;
+      });
+  }
 }

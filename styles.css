@@ -1,7 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: "Arial", sans-serif;
+  font-family: "Verdana", sans-serif;
 }
 
 .dark-mode {
@@ -50,7 +50,7 @@ button {
 }
 
 button i {
-  margin-right: 5px;
+  display: none;
 }
 
 table {
@@ -79,7 +79,8 @@ td {
 }
 
 .filters label,
-.filters input[type="text"] {
+.filters input[type="text"],
+.filters input[type="date"] {
   flex: 1;
   min-width: 100px;
 }
@@ -91,7 +92,8 @@ td {
 }
 
 .add-employee-form label,
-.add-employee-form input[type="text"] {
+.add-employee-form input[type="text"],
+.add-employee-form input[type="date"] {
   flex: 1;
   min-width: 100px;
 }
@@ -285,9 +287,14 @@ input:checked + .slider:before {
 
 nav {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  justify-content: space-between;
+  align-items: center;
   padding: 10px;
+}
+
+.nav-left {
+  display: flex;
+  gap: 10px;
 }
 
 .view-charts-link {
@@ -392,3 +399,309 @@ nav {
     grid-template-columns: 1fr;
   }
 }
+
+/* Chat window styles */
+.chat-window {
+  display: none;
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 300px;
+  max-height: 400px;
+  background-color: #d4d4d4; /* Light grey background */
+  border: 1px solid #ff8c00;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  overflow: hidden;
+  flex-direction: column;
+  font-family: "Poppins", sans-serif; /* Poppins font */
+}
+
+.chat-header {
+  background-color: #ff8c00;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+  position: relative;
+}
+
+.chat-header .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 1.2em;
+}
+
+.chat-body {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.chat-footer {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #ff8c00;
+}
+
+.chat-footer input {
+  flex: 1;
+  padding: 5px;
+  border: 1px solid #ff8c00;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #000;
+}
+
+.chat-footer button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-footer button i {
+  font-size: 1.2em;
+}
+
+.chat-footer button:hover {
+  background-color: #0056b3;
+}
+
+.chat-message {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  animation: fadeIn 0.5s;
+}
+
+.chat-message.customer {
+  align-self: flex-end;
+  text-align: right;
+}
+
+.chat-message.ai-bot {
+  align-self: flex-start;
+  text-align: left;
+}
+
+.chat-message .role {
+  font-weight: bold;
+  color: #82a457;
+}
+
+.chat-message.ai-bot .role {
+  color: #ff8c00; /* Purple text color for AI bot role */
+}
+
+.chat-message .text {
+  color: #000; /* Black text color for actual message */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.chat-icon {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  font-size: 2em;
+  color: #ff8c00;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+/* Dark mode specific styles for chat */
+.dark-mode .chat-window {
+  background-color: #333;
+  border: 1px solid #555;
+}
+
+.dark-mode .chat-header {
+  background-color: #555;
+  color: #fff;
+}
+
+.dark-mode .chat-footer input {
+  background-color: #555;
+  color: #fff;
+}
+
+.dark-mode .chat-footer button {
+  background-color: #777;
+}
+
+.dark-mode .chat-footer button:hover {
+  background-color: #999;
+}
+
+.dark-mode .chat-message .text {
+  color: #fff;
+}
+
+/* Light mode specific styles for chat */
+.light-mode .chat-window {
+  background-color: #d3d3d3;
+  border: 1px solid #ff8c00;
+}
+
+.light-mode .chat-header {
+  background-color: #ff8c00;
+  color: #fff;
+}
+
+.light-mode .chat-footer input {
+  background-color: #fff;
+  color: #000;
+}
+
+.light-mode .chat-footer button {
+  background-color: #ff8c00;
+}
+
+.light-mode .chat-footer button:hover {
+  background-color: #ff8c00;
+}
+
+.light-mode .chat-message .text {
+  color: #000;
+}
+
+/* ...existing code... */
+
+.welcome-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.welcome-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ...existing code... */
+
+.welcome-portlet {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 750px;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+/* ...existing code... */
+
+.collapsible {
+  margin: 20px 0;
+}
+
+.collapsible-header {
+  background-color: #ff8c00;
+  color: #fff;
+  cursor: pointer;
+  padding: 10px;
+  text-align: left;
+  border: none;
+  outline: none;
+  font-size: 1.2em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.collapsible-header i {
+  transition: transform 0.3s;
+}
+
+.collapsible-header.active i {
+  transform: rotate(180deg);
+}
+
+.collapsible-content {
+  display: none;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-top: none;
+  background-color: #f9f9f9;
+}
+
+/* Dark mode specific styles for collapsible */
+.dark-mode .collapsible-header {
+  background-color: #555;
+}
+
+.dark-mode .collapsible-content {
+  background-color: #222;
+  border-color: #555;
+}
+
+/* Light mode specific styles for collapsible */
+.light-mode .collapsible-header {
+  background-color: #ff8c00;
+}
+
+.light-mode .collapsible-content {
+  background-color: #f9f9f9;
+  border-color: #ccc;
+}
+
+/* ...existing code... */
+
+.actions-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+/* ...existing code... */
+
+.nav-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+/* ...existing code... */
+
+/* ...existing code... */
+
+.page-title {
+  flex: 1;
+  text-align: center;
+  margin: 0;
+}
+
+/* ...existing code... */

@@ -12,20 +12,19 @@
   </head>
   <body class="dark-mode">
     <nav>
-      <a
-        href="employee-details.html"
-        class="view-charts-link"
-        style="align-self: flex-start"
-        >Employee Details</a
-      >
-      <div class="switch-container">
-        <label class="switch">
-          <input type="checkbox" id="theme-toggle" onclick="toggleMode()" />
-          <span class="slider round"></span>
-        </label>
+      <div class="nav-left">
+        <a href="index.html" class="view-charts-link" onclick="saveTheme()"
+          >Home</a
+        >
+        <a
+          href="employee-details.html"
+          class="view-charts-link"
+          onclick="saveTheme()"
+          >Employee Details</a
+        >
       </div>
     </nav>
-    <h1>Employee Charts</h1>
+    <h1 class="page-title">Employee Charts</h1>
     <div class="tabs">
       <button class="tablinks" onclick="openTab(event, 'DepartmentChart')">
         <i class="fas fa-chart-bar"></i> Department
@@ -79,26 +78,13 @@
     </script>
     <script src="scripts.js"></script>
     <script src="theme.js"></script>
+    <script src="chat.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const theme = localStorage.getItem("theme") || "dark-mode";
         document.body.classList.add(theme);
-        if (theme === "light-mode") {
-          document.getElementById("theme-toggle").checked = true;
-        }
         applyThemeToElements(theme);
       });
-
-      function toggleMode() {
-        const body = document.body;
-        body.classList.toggle("dark-mode");
-        body.classList.toggle("light-mode");
-        const theme = body.classList.contains("dark-mode")
-          ? "dark-mode"
-          : "light-mode";
-        localStorage.setItem("theme", theme);
-        applyThemeToElements(theme);
-      }
 
       function applyThemeToElements(theme) {
         const elements = document.querySelectorAll(".visualization-box");
@@ -111,6 +97,13 @@
             element.style.borderColor = "#ccc";
           }
         });
+      }
+
+      function saveTheme() {
+        const theme = document.body.classList.contains("dark-mode")
+          ? "dark-mode"
+          : "light-mode";
+        localStorage.setItem("theme", theme);
       }
     </script>
   </body>

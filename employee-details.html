@@ -9,55 +9,108 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap");
+
+      .reset-icon {
+        font-size: 1.5em;
+        color: #ff0000;
+        cursor: pointer;
+        margin-right: 20px;
+      }
+      .reset-label {
+        margin-right: 10px;
+        font-weight: bold;
+        color: #ff0000;
+      }
+    </style>
   </head>
-  <body class="dark-mode">
+  <body>
     <nav>
-      <a
-        href="visualizations.html"
-        class="view-charts-link"
-        style="align-self: flex-start"
-        >View Charts</a
-      >
-      <div class="switch-container">
-        <label class="switch">
-          <input type="checkbox" id="theme-toggle" onclick="toggleMode()" />
-          <span class="slider round"></span>
-        </label>
+      <div class="nav-left">
+        <a href="index.html" class="view-charts-link" onclick="saveTheme()"
+          >Home</a
+        >
+        <a
+          href="visualizations.html"
+          class="view-charts-link"
+          onclick="saveTheme()"
+          >Employee Charts</a
+        >
       </div>
     </nav>
-    <h1>Employee Details</h1>
-    <div class="filter-box">
-      <div class="filters">
-        <label for="filter-id">ID:</label>
-        <input type="text" id="filter-id" onkeyup="filterTable()" />
-        <label for="filter-name">Name:</label>
-        <input type="text" id="filter-name" onkeyup="filterTable()" />
-        <label for="filter-position">Position:</label>
-        <input type="text" id="filter-position" onkeyup="filterTable()" />
-        <label for="filter-department">Department:</label>
-        <input type="text" id="filter-department" onkeyup="filterTable()" />
-        <label for="filter-email">Email:</label>
-        <input type="text" id="filter-email" onkeyup="filterTable()" />
-      </div>
-      <i class="fas fa-times" onclick="clearFilters()"></i>
+    <h1 class="page-title">Employee Details</h1>
+    <div class="actions-container">
+      <button
+        class="collapsible-header"
+        onclick="toggleCollapsible('filter-box')"
+      >
+        Filter Employees <i class="fas fa-chevron-down"></i>
+      </button>
+      <button
+        class="collapsible-header"
+        onclick="toggleCollapsible('add-employee-box')"
+      >
+        Add New Employee <i class="fas fa-chevron-down"></i>
+      </button>
+      <span class="reset-label">Reset Database</span>
+      <i class="fas fa-redo-alt reset-icon" onclick="refreshDatabase()"></i>
     </div>
-    <div class="add-employee-box">
-      <h2>Add New Employee</h2>
-      <div class="add-employee-form">
-        <label for="new-id">ID:</label>
-        <input type="text" id="new-id" />
-        <label for="new-name">Name:</label>
-        <input type="text" id="new-name" />
-        <label for="new-position">Position:</label>
-        <input type="text" id="new-position" />
-        <label for="new-department">Department:</label>
-        <input type="text" id="new-department" />
-        <label for="new-email">Email:</label>
-        <input type="text" id="new-email" />
-        <i class="fas fa-plus" onclick="addEmployee()"></i>
+    <div class="collapsible">
+      <div class="filter-box collapsible-content" id="filter-box">
+        <div class="filters">
+          <label for="filter-id">ID:</label>
+          <input type="text" id="filter-id" onkeyup="filterTable()" />
+          <label for="filter-name">Name:</label>
+          <input type="text" id="filter-name" onkeyup="filterTable()" />
+          <label for="filter-position">Position:</label>
+          <input type="text" id="filter-position" onkeyup="filterTable()" />
+          <label for="filter-department">Department:</label>
+          <input type="text" id="filter-department" onkeyup="filterTable()" />
+          <label for="filter-email">Email:</label>
+          <input type="text" id="filter-email" onkeyup="filterTable()" />
+          <label for="filter-salary">Salary:</label>
+          <input type="text" id="filter-salary" onkeyup="filterTable()" />
+          <label for="filter-country">Country:</label>
+          <input type="text" id="filter-country" onkeyup="filterTable()" />
+          <label for="filter-previous-salary">Previous Salary:</label>
+          <input
+            type="text"
+            id="filter-previous-salary"
+            onkeyup="filterTable()"
+          />
+        </div>
+        <i class="fas fa-times" onclick="clearFilters()"></i>
       </div>
     </div>
-    <i class="fas fa-sync-alt" onclick="refreshDatabase()"></i>
+    <div class="collapsible">
+      <div class="add-employee-box collapsible-content" id="add-employee-box">
+        <h2>Add New Employee</h2>
+        <div class="add-employee-form">
+          <label for="new-id">ID:</label>
+          <input type="text" id="new-id" />
+          <label for="new-name">Name:</label>
+          <input type="text" id="new-name" />
+          <label for="new-position">Position:</label>
+          <input type="text" id="new-position" />
+          <label for="new-department">Department:</label>
+          <input type="text" id="new-department" />
+          <label for="new-email">Email:</label>
+          <input type="text" id="new-email" />
+          <label for="new-salary">Salary:</label>
+          <input type="text" id="new-salary" />
+          <label for="new-country">Country:</label>
+          <input type="text" id="new-country" />
+          <label for="new-hiring-date">Hiring Date:</label>
+          <input type="date" id="new-hiring-date" />
+          <label for="new-previous-salary">Previous Salary:</label>
+          <input type="text" id="new-previous-salary" />
+          <label for="new-last-promoted-date">Last Promoted Date:</label>
+          <input type="date" id="new-last-promoted-date" />
+          <i class="fas fa-plus" onclick="addEmployee()"></i>
+        </div>
+      </div>
+    </div>
     <table>
       <thead>
         <tr>
@@ -66,34 +119,40 @@
           <th>Position</th>
           <th>Department</th>
           <th>Email</th>
+          <th>Salary</th>
+          <th>Country</th>
+          <th>Hiring Date</th>
+          <th>Previous Salary</th>
+          <th>Last Promoted Date</th>
         </tr>
       </thead>
       <tbody id="employee-table-body">
         <!-- Employee rows will be populated here -->
       </tbody>
     </table>
+    <i class="fas fa-comments chat-icon" onclick="toggleChat()"></i>
+    <div class="chat-window" id="chat-window">
+      <div class="chat-header">
+        Chat with AI Bot
+        <i class="fas fa-times close-btn" onclick="toggleChat()"></i>
+      </div>
+      <div class="chat-body" id="chat-body"></div>
+      <div class="chat-footer">
+        <input type="text" id="chat-input" placeholder="Type a message..." />
+        <button onclick="sendMessage()">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
     <script src="scripts.js"></script>
     <script src="theme.js"></script>
+    <script src="chat.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const theme = localStorage.getItem("theme") || "dark-mode";
         document.body.classList.add(theme);
-        if (theme === "light-mode") {
-          document.getElementById("theme-toggle").checked = true;
-        }
         applyThemeToElements(theme);
       });
-
-      function toggleMode() {
-        const body = document.body;
-        body.classList.toggle("dark-mode");
-        body.classList.toggle("light-mode");
-        const theme = body.classList.contains("dark-mode")
-          ? "dark-mode"
-          : "light-mode";
-        localStorage.setItem("theme", theme);
-        applyThemeToElements(theme);
-      }
 
       function applyThemeToElements(theme) {
         const elements = document.querySelectorAll(".visualization-box");
@@ -106,6 +165,21 @@
             element.style.borderColor = "#ccc";
           }
         });
+      }
+
+      function toggleCollapsible(id) {
+        const content = document.getElementById(id);
+        content.style.display =
+          content.style.display === "none" || content.style.display === ""
+            ? "block"
+            : "none";
+      }
+
+      function saveTheme() {
+        const theme = document.body.classList.contains("dark-mode")
+          ? "dark-mode"
+          : "light-mode";
+        localStorage.setItem("theme", theme);
       }
     </script>
   </body>

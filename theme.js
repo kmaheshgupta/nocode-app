@@ -30,3 +30,10 @@ function applyThemeToElements(theme) {
     }
   });
 }
+
+function saveTheme() {
+  const theme = document.body.classList.contains("dark-mode")
+    ? "dark-mode"
+    : "light-mode";
+  localStorage.setItem("theme", theme);
+}

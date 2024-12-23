@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Management</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+  </head>
+  <body class="dark-mode">
+    <nav>
+      <div class="nav-left">
+        <a href="employee-details.html" class="view-charts-link"
+          >Employee Details</a
+        >
+        <a href="visualizations.html" class="view-charts-link"
+          >Employee Charts</a
+        >
+      </div>
+      <div class="switch-container">
+        <label class="switch">
+          <input type="checkbox" id="theme-toggle" onclick="toggleMode()" />
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </nav>
+    <h1 class="page-title">Anyone Can Code</h1>
+    <div class="welcome-portlet">
+      <img src="ems.png" alt="Welcome Image" class="welcome-image" />
+    </div>
+    <script src="scripts.js"></script>
+    <script src="theme.js"></script>
+    <script src="chat.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const theme = localStorage.getItem("theme") || "dark-mode";
+        document.body.classList.add(theme);
+        if (theme === "light-mode") {
+          document.getElementById("theme-toggle").checked = true;
+        }
+        applyThemeToElements(theme);
+      });
+    </script>
+  </body>
+</html>
