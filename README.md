@@ -72,3 +72,20 @@ The application follows a microservices architecture and a 3-tier approach:
 3. Make all the pages responsive
 4. Update the visualizations page to use icons in the tab heads and make the tabs more aesthetic.
 5. Theme selected in employee-details page should be carry forwarded to visualizations page and vice versa. Show theme toggle on visaulizations page
+
+### Enhancing the application
+
+1. Add below attributes to employee and make all them nullable-
+   Salary, Country, Hiring Date, Previous Salary, Last Promoted Date
+   Make required changes in webpage, filters, routes, database to accomodate new attributes
+2. Update initial load to populate all the employee attributes for 20 employees across countries
+3. Remove the hiring date and last promoted date filters from the employee-details webpage.
+4. Update the employee details page to show the hiring date in the data table and while adding a new record, but do not show it in the filters section.
+5. Ensure that all the filters in employee page are working flawlessly. Do not add new filters for hiring date and last promoted date
+6. When adding a new record, ensure all the fields are saved correctly
+7. Show a floating "Chat" icon in employee detail page. On click I should be able to make a chat conversation. Anything user types should be shown as "Customer", anything the app responds should be shown as "AI Bot"
+8. Create a chat endpoint in the application
+9. Update the `sendMessage` function to invoke the chat route from the chat screen.
+10. Generate CSS for a chat window interface. The chat window should have rounded corners and a light background color. User messages should appear in rounded bubbles with a distinct background color (e.g., purple or blue) and be aligned to the right. Include a close button in the top corner.
+11. Convert chat into an independent component and make it available on all web pages
+12. Create a Welcome page and modularize all pages
